@@ -19,6 +19,11 @@ export class UserController {
     return this.userService.createUser(data);
   }
 
+  @Post('one')
+  async createOneUser(@Body() data: Prisma.UserCreateInput) {
+    return this.userService.createOneUser(data.email, data.name);
+  }
+
   @Get()
   async getUsers() {
     return this.userService.getUsers();

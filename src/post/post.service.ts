@@ -37,6 +37,35 @@ export class PostService {
     });
   }
 
+  async createPostForUser(
+    authorId: number,
+    postData: {
+      title: string;
+      content: string;
+      categories: { name: string }[];
+    },
+  ) {
+    const post = await this.prisma.post.create({
+      data: {
+        title: postData.title,
+        content: postData.content,
+        author: {
+          connect: { id: authorId }, // Menghubungkan post ke user yang sudah ada
+        },
+        categories: {
+          connectOrCreate: postData.categories.map((category) => ({
+            where: { name: category.name }, // Jika kategori sudah ada, maka hubungkan
+            create: { name: category.name }, // Jika kategori belum ada, buat baru
+          })),
+        },
+      },
+      include: {
+        categories: true, // Menampilkan data kategori dalam response
+      },
+    });
+    return post;
+  }
+
   async updatePost(params: {
     where: Prisma.PostWhereUniqueInput;
     data: Prisma.PostUpdateInput;
