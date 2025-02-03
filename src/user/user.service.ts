@@ -39,6 +39,17 @@ export class UserService {
     });
   }
 
+  async getUserByName(name: string): Promise<User[] | null> {
+    return this.prisma.user.findMany({
+      where: {
+        name: {
+          contains: name,
+          mode: 'insensitive',
+        },
+      },
+    });
+  }
+
   async createUser(data: Prisma.UserCreateInput): Promise<User> {
     return this.prisma.user.create({
       data,

@@ -10,4 +10,9 @@ export class PostController {
     console.log(data);
     return this.postService.createPostForUser(data.authorId, data.postData);
   }
+
+  @Post('update-post-by-user')
+  async updatePostByUser(@Body() data: any) {
+    return this.postService.updatePostByUser(data.userId, data.postData);
+  }
 }

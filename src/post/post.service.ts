@@ -77,6 +77,30 @@ export class PostService {
     });
   }
 
+  async updatePostByUser(userId: number, data: any) {
+    return this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        posts: {
+          update: {
+            where: {
+              id: data.id,
+            },
+            data: {
+              title: data.title,
+              content: data.content,
+            },
+          },
+        },
+      },
+      include: {
+        posts: true,
+      },
+    });
+  }
+
   async deletePost(where: Prisma.PostWhereUniqueInput): Promise<Post> {
     return this.prisma.post.delete({
       where,

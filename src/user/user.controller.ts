@@ -34,6 +34,11 @@ export class UserController {
     return this.userService.getUsersSelect();
   }
 
+  @Get(':name')
+  async getUserByName(@Param('name') name: string) {
+    return this.userService.getUserByName(name);
+  }
+
   // @Get(':id')
   // async getUserById(@Param('id') id: number) {
   //   return this.userService.getUserById(id);
